@@ -1,0 +1,16 @@
+[Unit]
+Description=AegisPanel OS Kiosk Renderer (WPE WebKit / Cog)
+After=aegispanel-core.service
+Requires=aegispanel-core.service
+
+[Service]
+Type=simple
+Environment=COG_PLATFORM_FDO_VIEW_FULLSCREEN=1
+Environment=WPE_BG_COLOR=0x07090EFF
+ExecStart=/usr/bin/aegispanel-kiosk-launcher
+Restart=always
+RestartSec=2
+User=root
+
+[Install]
+WantedBy=graphical.target

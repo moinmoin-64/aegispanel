@@ -1,0 +1,23 @@
+# AegisPanel OS Boot Configuration for Raspberry Pi Zero 2 W
+
+arm_64bit=1
+gpu_mem=128
+
+# DRM KMS VC4 V3D Graphics Acceleration
+dtoverlay=vc4-kms-v3d
+max_framebuffers=2
+
+# HDMI Custom Display Timing for 7" 1024x600 Touchscreen
+hdmi_force_hotplug=1
+config_hdmi_boost=10
+hdmi_group=2
+hdmi_mode=87
+hdmi_cvt 1024 600 60 6 0 0 0
+
+# UART for ESP32 & HLK-LD2410 Communication
+enable_uart=1
+dtoverlay=miniuart-bt
+
+# Disable unnecessary overlays to speed up boot time
+disable_overscan=1
+dtparam=audio=off

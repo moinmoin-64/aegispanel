@@ -1,0 +1,17 @@
+[Unit]
+Description=AegisPanel OS Core Daemon
+After=network-online.target systemd-modules-load.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/aegispanel-core
+Restart=always
+RestartSec=3
+User=root
+WatchdogSec=15
+RuntimeDirectory=aegispanel
+RuntimeDirectoryMode=0755
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,1 @@
+root=/dev/mmcblk0p2 rootwait console=tty1 console=serial0,115200 quiet logo.nologo vt.global_cursor_default=0 systemd.show_status=0

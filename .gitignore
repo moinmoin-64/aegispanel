@@ -1,0 +1,31 @@
+# Buildroot Build Outputs & Toolchain artifacts
+buildroot/output/
+buildroot/.config*
+buildroot/dl/
+
+# Rust Target & Cache Dirs
+target/
+**/target/
+**/.cargo_home/
+Cargo.lock.bak
+
+# Compressed Images & Scratch Logs
+*.img
+*.img.xz
+*.iso
+/tmp/aegispanel_release.log
+/tmp/*.tmp
+
+# Node / Web UI
+node_modules/
+**/dist/
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# OS / Editor Files
+.DS_Store
+.vscode/
+*.swp
+*~

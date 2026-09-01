@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>AegisPanel OS – First-Boot Setup Wizard</title>
+  <link rel="stylesheet" href="./src/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="wizard-card">
+    <header class="wizard-header">
+      <div class="logo-box">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      </div>
+      <div>
+        <h1 class="wizard-title">AegisPanel OS Setup</h1>
+        <p class="wizard-subtitle" id="stepCounter">Schritt 1 von 8</p>
+      </div>
+    </header>
+
+    <div class="progress-bar-container">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+
+    <main class="wizard-body">
+      <!-- Step 1: Welcome -->
+      <section class="step-pane active" data-step="1">
+        <h2>Willkommen bei AegisPanel OS</h2>
+        <p>Dieser Assistent führt Sie schrittweise durch die Ersteinrichtung Ihres Smart-Home- & Security-Wandpanels.</p>
+        <div class="info-card">
+          <p>✔ Sicheres Embedded Linux OS</p>
+          <p>✔ Home Assistant & Alarmo Integration</p>
+          <p>✔ mmWave Radar Präsenzerkennung</p>
+          <p>✔ Kamera Face ID Entsperrung (Optional)</p>
+        </div>
+      </section>
+
+      <!-- Step 2: Language -->
+      <section class="step-pane" data-step="2">
+        <h2>Sprache wählen</h2>
+        <p>Wählen Sie die bevorzugte Bedienoberflächen-Sprache:</p>
+        <div class="option-grid">
+          <button class="option-btn selected" data-lang="de">Deutsch</button>
+          <button class="option-btn" data-lang="en">English</button>
+        </div>
+      </section>
+
+      <!-- Step 3: Wi-Fi -->
+      <section class="step-pane" data-step="3">
+        <h2>WLAN Verbindung</h2>
+        <p>Geben Sie Ihre WLAN-Zugangsdaten ein:</p>
+        <div class="form-group">
+          <label>WLAN SSID (Netzwerkname)</label>
+          <input type="text" id="wifiSsid" placeholder="Home-Network" class="input-field" />
+        </div>
+        <div class="form-group">
+          <label>WLAN Passwort</label>
+          <input type="password" id="wifiPsk" placeholder="••••••••" class="input-field" />
+        </div>
+      </section>
+
+      <!-- Step 4: Home Assistant URL & Token -->
+      <section class="step-pane" data-step="4">
+        <h2>Home Assistant Anbindung</h2>
+        <p>Geben Sie die URL und das Token Ihres Home Assistant Servers ein:</p>
+        <div class="form-group">
+          <label>Home Assistant URL</label>
+          <input type="url" id="haUrl" placeholder="https://homeassistant.local:8123" class="input-field" />
+        </div>
+        <div class="form-group">
+          <label>Long-Lived Access Token</label>
+          <input type="password" id="haToken" placeholder="eyJhbGciOiJIUzI1Ni..." class="input-field" />
+        </div>
+      </section>
+
+      <!-- Step 5: Connection Test -->
+      <section class="step-pane" data-step="5">
+        <h2>Verbindungstest</h2>
+        <p>AegisPanel testet die Verbindung zu Home Assistant & Alarmo WebSocket...</p>
+        <div class="test-box" id="testBox">
+          <div class="spinner" id="testSpinner"></div>
+          <p id="testStatusText">Verbindung wird aufgebaut...</p>
+        </div>
+      </section>
+
+      <!-- Step 6: Face ID (Optional) -->
+      <section class="step-pane" data-step="6">
+        <h2>Face ID Gesichtserkennung (Optional)</h2>
+        <p>Aktivieren Sie die berührungslose Entsperrung über das Pi Zero CSI-Kameramodul & Home Assistant Double Take / CompreFace:</p>
+        <div class="option-grid" style="margin-bottom: 16px;">
+          <button class="option-btn" id="faceIdDisableBtn">Deaktivieren</button>
+          <button class="option-btn selected" id="faceIdEnableBtn">Aktivieren</button>
+        </div>
+        <div class="info-card">
+          <p>📷 Nutzung von <code>/dev/video0</code> (RPi CSI-Kamera)</p>
+          <p>🔓 Automatisches Entsperren & Alarm-Deaktivieren bei Gesichtstreffer</p>
+        </div>
+      </section>
+
+      <!-- Step 7: Night Mode -->
+      <section class="step-pane" data-step="7">
+        <h2>Nachtmodus Konfiguration</h2>
+        <p>Legen Sie die Ruhezeiten fest, in denen das Display automatisch abgeschaltet wird:</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nacht-Start</label>
+            <input type="time" id="nightStart" value="22:00" class="input-field" />
+          </div>
+          <div class="form-group">
+            <label>Nacht-Ende</label>
+            <input type="time" id="nightEnd" value="06:30" class="input-field" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 8: Summary & Finish -->
+      <section class="step-pane" data-step="8">
+        <h2>Einrichtung abschließen</h2>
+        <p>Die Konfiguration ist bereit zum Speichern. Das System wird anschließend neu gestartet.</p>
+        <div class="summary-box">
+          <p><strong>HA URL:</strong> <span id="sumHaUrl">-</span></p>
+          <p><strong>WLAN:</strong> <span id="sumWifi">-</span></p>
+          <p><strong>Face ID:</strong> <span id="sumFaceId">Aktiviert</span></p>
+          <p><strong>Nachtmodus:</strong> <span id="sumNight">-</span></p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="wizard-footer">
+      <button class="nav-btn prev-btn" id="btnPrev" disabled>Zurück</button>
+      <button class="nav-btn next-btn" id="btnNext">Weiter</button>
+    </footer>
+  </div>
+
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>

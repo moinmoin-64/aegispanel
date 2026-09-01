@@ -1,0 +1,13 @@
+#!/bin/sh
+# AegisPanel OS Emergency Recovery Trigger Script
+
+echo "=================================================="
+echo " AegisPanel OS - Launching Recovery Subsystem     "
+echo "=================================================="
+
+# Set U-Boot flag to boot recovery partition
+if command -v fw_setenv >/dev/null 2>&1; then
+    fw_setenv BOOT_RECOVERY 1
+fi
+
+reboot -f

@@ -1,0 +1,7 @@
+config BR2_PACKAGE_AEGISPANEL_CORE
+	bool "aegispanel-core"
+	depends on BR2_PACKAGE_HOST_RUSTC_ARCH_SUPPORTS
+	select BR2_PACKAGE_HOST_RUSTC
+	help
+	  AegisPanel OS native Rust core daemon managing state machine,
+	  HA WebSocket, GPIO, Power Management, and IPC.

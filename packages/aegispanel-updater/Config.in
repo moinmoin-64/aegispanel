@@ -1,0 +1,5 @@
+config BR2_PACKAGE_AEGISPANEL_UPDATER
+	bool "aegispanel-updater"
+	select BR2_PACKAGE_RAUC
+	help
+	  AegisPanel OS A/B atomic updater package.

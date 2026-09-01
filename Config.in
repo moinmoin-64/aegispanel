@@ -1,0 +1,5 @@
+menu "AegisPanel OS Packages"
+    source "$BR2_EXTERNAL_AEGISPANEL_OS_PATH/packages/aegispanel-core/Config.in"
+    source "$BR2_EXTERNAL_AEGISPANEL_OS_PATH/packages/aegispanel-ui/Config.in"
+    source "$BR2_EXTERNAL_AEGISPANEL_OS_PATH/packages/aegispanel-updater/Config.in"
+endmenu

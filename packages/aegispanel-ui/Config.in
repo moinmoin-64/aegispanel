@@ -1,0 +1,14 @@
+config BR2_PACKAGE_AEGISPANEL_UI
+	bool "aegispanel-ui"
+	depends on BR2_PACKAGE_HAS_LIBEGL
+	depends on BR2_PACKAGE_HAS_LIBGLES
+	depends on BR2_INSTALL_LIBSTDCPP
+	select BR2_PACKAGE_LIBWPE
+	select BR2_PACKAGE_WPEBACKEND_FDO
+	select BR2_PACKAGE_WPEWEBKIT
+	select BR2_PACKAGE_COG
+	select BR2_PACKAGE_COG_PLATFORM_FDO
+	select BR2_PACKAGE_COG_PLATFORM_DRM
+	help
+	  Security Screen and First-Boot Wizard HTML5/TypeScript web applications
+	  rendered via WPE WebKit and Cog launcher over DRM/KMS / Wayland FDO.

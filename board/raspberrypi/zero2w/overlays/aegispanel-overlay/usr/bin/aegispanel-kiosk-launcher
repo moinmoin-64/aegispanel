@@ -1,0 +1,44 @@
+#!/bin/sh
+# AegisPanel OS Dynamic Kiosk UI Launcher
+# Queries aegispanel-core state over IPC socket and launches WPE WebKit Cog renderer
+
+SOCKET_PATH="/run/aegispanel/ipc.sock"
+SECURITY_UI="file:///var/www/aegispanel/security/index.html"
+WIZARD_UI="file:///var/www/aegispanel/wizard/index.html"
+
+echo "Starting AegisPanel Kiosk Launcher..."
+
+# Wait for aegispanel-core IPC socket to be created
+while [ ! -S "$SOCKET_PATH" ]; do
+    sleep 0.5
+done
+
+CURRENT_URL="$SECURITY_UI"
+
+export COG_PLATFORM_FDO_VIEW_FULLSCREEN=1
+export WPE_BG_COLOR=0x07090EFF
+
+while true; do
+    # Query current state from daemon
+    STATE_RESP=$(echo '{"action":"get_status"}' | socat - UNIX-CONNECT:"$SOCKET_PATH" 2>/dev/null)
+    STATE=$(echo "$STATE_RESP" | grep -o '"state":"[^"]*"' | cut -d'"' -f4)
+
+    TARGET_URL="$SECURITY_UI"
+    if [ "$STATE" = "WIZARD" ]; then
+        TARGET_URL="$WIZARD_UI"
+    elif [ "$STATE" = "KIOSK" ]; then
+        # Read HA kiosk URL from system config if available
+        if [ -f /etc/aegispanel/system.json ]; then
+            HA_KIOSK=$(grep -o '"kiosk_url":"[^"]*"' /etc/aegispanel/system.json | cut -d'"' -f4)
+            if [ -n "$HA_KIOSK" ]; then
+                TARGET_URL="$HA_KIOSK"
+            fi
+        fi
+    fi
+
+    # Launch cog kiosk renderer targeting URL
+    echo "Launching Cog Kiosk targeting: $TARGET_URL"
+    cog -P fdo "$TARGET_URL"
+
+    sleep 1
+done
